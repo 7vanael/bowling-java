@@ -24,7 +24,7 @@ class BowlingTest {
     }
 
     @Test
-    @DisplayName("All single pins")
+    @DisplayName("All Single pins")
     void allSinglePins() {
 
         for (int i = 0; i < 20; i++) {
@@ -56,7 +56,7 @@ class BowlingTest {
     }
 
     @Test
-    @DisplayName("First strike")
+    @DisplayName("First Strike")
     void firstStrike() {
         bowling.roll(10);
         bowling.roll(1);

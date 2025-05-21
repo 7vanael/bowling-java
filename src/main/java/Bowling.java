@@ -7,15 +7,17 @@ public class Bowling {
 
     public void roll(int pins) {
         rolls.add(pins);
-        if (rolls.size() == 3 && isStrike()) {
-            frames.add(threeBallFrame());
-            rolls.remove(0);
-        } else if (rolls.size() == 3 && isSpare()) {
-            frames.add(threeBallFrame());
-            removeNextFrame();
-        } else if (rolls.size() == 3) {
-            frames.add(nextFrame());
-            removeNextFrame();
+        if (threeRollsUnframed()) {
+            if (isStrike()) {
+                frames.add(threeBallFrame());
+                rolls.remove(0);
+            } else if (isSpare()) {
+                frames.add(threeBallFrame());
+                removeNextFrame();
+            } else {
+                frames.add(nextFrame());
+                removeNextFrame();
+            }
         }
 
         if (frames.size() == 10 && rolls.size() > 0) {
@@ -29,18 +31,34 @@ public class Bowling {
 
     public int score() {
         int score = 0;
-        for (int i = 0; i < frames.size(); i++) {
-            score += frames.get(i);
-        }
-        for (int i = 0; i < rolls.size(); i++) {
-            score += rolls.get(i);
-        }
+        score += scoreFrames();
+        score += scoreUnframedRolls();
         return score;
     }
+
+    private int scoreFrames() {
+        int frameScore = 0;
+        for (int i = 0; i < frames.size(); i++) {
+            frameScore += frames.get(i);
+        }
+        return frameScore;
+    }
+
+    private int scoreUnframedRolls() {
+        int remainingRollsScore = 0;
+        for (int i = 0; i < rolls.size(); i++) {
+            remainingRollsScore += rolls.get(i);
+        }
+        return remainingRollsScore;
+    }
+
 
     private void removeNextFrame() {
         rolls.remove(1);
         rolls.remove(0);
+    }
+    private boolean threeRollsUnframed(){
+        return rolls.size() == 3;
     }
 
     private boolean isSpare() {
